@@ -63,6 +63,7 @@ namespace App1
 
         //}
 
+
         public async void getacg()
         {
             string url = "https://yande.re/post.xml?limit=1";
