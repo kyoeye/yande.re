@@ -10,40 +10,41 @@ namespace App1
 {
     class Class2
     {
-        public static async Task<Stream> GetWebString(string url, string formData)
+        public static async Task<string> GetWebString(string url, string formData)
         {
-            string requestUri = "";
-            if (formData.Contains("="))
-            {
-                requestUri = string.Concat(new object[]
-                {
-                    url,
-                    "?",
-                    formData,
-                    "r=",
-                    DateTime.Now.Ticks
-                });
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(formData))
-                {
-                    requestUri = url + "?r=" + DateTime.Now.Ticks;
-                }
-                else
-                {
-                    requestUri = url + formData;
-                }
-            }
-            Stream result;
+            string requestUri = url;
+            //string requestUri = "";
+            //if (formData.Contains("="))
+            //{
+            //    requestUri = string.Concat(new object[]
+            //    {
+            //        url,
+            //        "?",
+            //        formData,
+            //        "r=",
+            //        DateTime.Now.Ticks
+            //    });
+            //}
+            //else
+            //{
+            //    if (string.IsNullOrEmpty(formData))
+            //    {
+            //        requestUri = url + "?r=" + DateTime.Now.Ticks;
+            //    }
+            //    else
+            //    {
+            //        requestUri = url + formData;
+            //    }
+            //}
+         string result;
             try
             {
                 using (HttpClient httpClient = new HttpClient())
                 {
                     using (HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(new Uri(requestUri)))
-                    {
+                    {                             
                         httpResponseMessage.EnsureSuccessStatusCode();
-                        Stream text = await httpResponseMessage.Content.ReadAsStreamAsync();
+                       var text = await httpResponseMessage.Content.ReadAsStringAsync();
                         result = text;
                     }
                 }

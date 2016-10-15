@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
+using Windows.Data.Xml.Dom;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -66,15 +67,37 @@ namespace App1
 
         public async void getacg()
         {
-            string url = "https://yande.re/post.xml?limit=1";
+            string url = "https://yande.re/post.xml?limit=2";
             var mystring = await Class2.GetWebString(url, null);
-           
-            XmlDocument doc = new XmlDocument();
-            doc.Load(mystring);
-            var fcc = doc.ChildNodes;
-            XmlNodeList schoolNodeList = fcc;
-            schoolNodeList.GetEnumerator();
-            textb.Text = schoolNodeList.ToString();
+
+            Windows.Data.Xml.Dom.XmlDocument doc = new Windows.Data.Xml.Dom.XmlDocument();
+            doc.LoadXml(mystring);
+            Windows.Data.Xml.Dom.XmlNodeList postsNodeList = doc.SelectNodes("/posts");//一级节点
+               if(postsNodeList != null)
+            {
+               foreach (XmlNode yandeNode in postsNodeList ) //循环
+                {
+                   XmlNode  gradesNode = yandeNode.NextSibling;
+                    if (gradesNode != null )
+                    {
+                        System.Xml.XmlNodeList gradeNodeList = gradesNode.ChildNodes;
+                    
+                        if (gradeNodeList  != null )
+                        {
+                            foreach (XmlNode gradeNode in gradeNodeList)
+                            {
+                                  textb.Text = yandeNode.Attributes["jpeg_url"].Value;
+
+                            }
+                        }
+
+                    }
+                }
+            }
+               else
+            {
+                textb.Text = "一个坏消息，无法找到posts";
+            }
         }
 
 
