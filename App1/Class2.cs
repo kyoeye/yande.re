@@ -36,7 +36,7 @@ namespace App1
             //        requestUri = url + formData;
             //    }
             //}
-         string result;
+           string result;
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -44,7 +44,7 @@ namespace App1
                     using (HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(new Uri(requestUri)))
                     {                             
                         httpResponseMessage.EnsureSuccessStatusCode();
-                       var text = await httpResponseMessage.Content.ReadAsStringAsync();
+                        var text = await httpResponseMessage.Content.ReadAsStringAsync();
                         result = text;
                     }
                 }

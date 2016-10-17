@@ -2,6 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using Windows.Data.Xml.Dom;
+using System.Xml.Linq;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -15,7 +16,7 @@ namespace App1
         public MainPage()
         {
             this.InitializeComponent();
-            getacg();
+           
         }
 
         //private string getacg()
@@ -63,45 +64,87 @@ namespace App1
         //    //
 
         //}
-
+        private void mybutton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            getacg();
+        }
 
         public async void getacg()
-        {
+         {
             string url = "https://yande.re/post.xml?limit=2";
             var mystring = await Class2.GetWebString(url, null);
+            
 
-            Windows.Data.Xml.Dom.XmlDocument doc = new Windows.Data.Xml.Dom.XmlDocument();
-            doc.LoadXml(mystring);
-            Windows.Data.Xml.Dom.XmlNodeList postsNodeList = doc.SelectNodes("/posts");//一级节点
-               if(postsNodeList != null)
+            XElement root = XElement.Parse(mystring);
+            IEnumerable<XElement> elements = root.Elements();
+            foreach (var element in elements)
             {
-               foreach (XmlNode yandeNode in postsNodeList ) //循环
+                if (element.Name == "post")
                 {
-                   XmlNode  gradesNode = yandeNode.NextSibling;
-                    if (gradesNode != null )
+                    IEnumerable<XAttribute> Items = element.Attributes();
+                    foreach (var item in Items)
                     {
-                        System.Xml.XmlNodeList gradeNodeList = gradesNode.ChildNodes;
-                    
-                        if (gradeNodeList  != null )
+                        if (item.Name == "id")
                         {
-                            foreach (XmlNode gradeNode in gradeNodeList)
-                            {
-                                  textb.Text = yandeNode.Attributes["jpeg_url"].Value;
-
-                            }
+                            
                         }
-
+                        else if (item.Name == "")
+                        {
+                           
+                            textb.Text = "不是";
+                        }
                     }
                 }
             }
-               else
-            {
-                textb.Text = "一个坏消息，无法找到posts";
-            }
+
+            //Windows.Data.Xml.Dom.XmlDocument doc = new Windows.Data.Xml.Dom.XmlDocument();
+            //doc.LoadXml (mystring);
+
+            //Windows.Data.Xml.Dom.XmlNodeList schoolNodeList = doc.SelectNodes("/posts");
+
+            //if (schoolNodeList != null)
+            //{
+            //    foreach (XmlNode schoolNode in schoolNodeList)
+            //    {
+
+            //    }
+            //}
+
+
+
+
+            //Windows.Data.Xml.Dom.XmlDocument doc = new Windows.Data.Xml.Dom.XmlDocument();
+            //doc.LoadXml(mystring);
+            //Windows.Data.Xml.Dom.XmlNodeList postsNodeList = doc.SelectNodes("/posts");//一级节点
+            //if (postsNodeList != null)
+            //{
+            //    foreach (Windows.Data.Xml.Dom.XmlAttribute yandeNode in postsNodeList) //循环
+            //    {
+
+            //        Windows.Data.Xml.Dom.XmlAttribute gradesNode = yandeNode.NodeName ;
+            //        {
+            //            System.Xml.XmlNodeList gradeNodeList = gradesNode.ChildNodes;
+
+            //            if (gradeNodeList != null)
+            //            {
+            //                foreach (XmlNode gradeNode in gradeNodeList)
+            //                {
+            //                    textb.Text = yandeNode.Attributes["jpeg_url"].Value;
+
+            //                }
+            //            }
+
+            //        }
+
+
+            //    }
+            //}
+            //else
+            //{
+            //    textb.Text = "一个坏消息，无法找到posts";
+            //}
         }
 
-
-
-
+       
     }
 }

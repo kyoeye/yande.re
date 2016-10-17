@@ -10,5 +10,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image Name="Imagehaha" />
         <TextBlock Name="textb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Name="mybutton" Content="122222222" Click="mybutton_Click" />
     </Grid>
 </Page>
