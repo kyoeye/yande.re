@@ -3,6 +3,8 @@ using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using Windows.Data.Xml.Dom;
 using System.Xml.Linq;
+using Windows.UI.Xaml.Media.Imaging;
+using System;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -16,9 +18,11 @@ namespace App1
         public MainPage()
         {
             this.InitializeComponent();
-           
-        }
 
+        }
+        int a = 0;
+        string[] id = new string[2];
+        string[] uri = new string[2];
         //private string getacg()
         //{
         //    //string url = "https://yande.re/post.xml?limit=1";
@@ -64,16 +68,33 @@ namespace App1
         //    //
 
         //}
+
+        public void getimg()
+        {
+            try
+            {
+                string xd = uri[a];
+                BitmapImage getimg = new BitmapImage(new Uri(xd));
+               
+                Imagehaha.Source = getimg;
+            }
+            catch
+            {
+
+            }
+        }
+
+
         private void mybutton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             getacg();
         }
 
         public async void getacg()
-         {
+        {
             string url = "https://yande.re/post.xml?limit=2";
             var mystring = await Class2.GetWebString(url, null);
-            
+
 
             XElement root = XElement.Parse(mystring);
             IEnumerable<XElement> elements = root.Elements();
@@ -86,15 +107,20 @@ namespace App1
                     {
                         if (item.Name == "id")
                         {
-                            
+                            id[0] = (string)item;
+                            textb.Text = id[0];
+
                         }
-                        else if (item.Name == "")
+                        else if (item.Name == "file_url")
                         {
-                           
-                            textb.Text = "不是";
+                            uri[0] = (string)item;
+                            mybutton.Content = uri [0];
+                            break;
+
                         }
                     }
                 }
+                break;
             }
 
             //Windows.Data.Xml.Dom.XmlDocument doc = new Windows.Data.Xml.Dom.XmlDocument();
@@ -145,6 +171,9 @@ namespace App1
             //}
         }
 
-       
+        private void mybutton2_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            getimg();
+        }
     }
 }

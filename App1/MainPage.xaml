@@ -8,8 +8,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
         <Image Name="Imagehaha" />
         <TextBlock Name="textb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button Name="mybutton" Content="122222222" Click="mybutton_Click" />
+        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center"  >
+            <Button Margin="5,5,5,5" Name="mybutton" Content="122222222" Click="mybutton_Click" />
+            <Button Margin="5,5,5,5" Name="mybutton2" Content="获取图片" Click="mybutton2_Click"  />
+        </StackPanel>
     </Grid>
 </Page>
