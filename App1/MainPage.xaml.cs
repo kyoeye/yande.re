@@ -92,7 +92,7 @@ namespace App1
 
         public async void getacg()
         {
-            string url = "https://yande.re/post.xml?limit=2";
+            string url = "https://yande.re/post.xml?limit=30";
             var mystring = await Class2.GetWebString(url, null);
 
 
@@ -107,6 +107,7 @@ namespace App1
                     {
                         if (item.Name == "id")
                         {
+                            
                             id[0] = (string)item;
                             textb.Text = id[0];
 
@@ -114,10 +115,20 @@ namespace App1
                         else if (item.Name == "file_url")
                         {
                             uri[0] = (string)item;
-                            mybutton.Content = uri [0];
-                            break;
+                            mybutton.Content = uri[0];
+                          
 
                         }
+                        else if (item.Name == "rating")
+                        {
+                            bool fc = ( item.Value != "e" );
+                            if (fc == false )
+                            {
+                                break;
+                            }
+                            break;
+                        }
+                       
                     }
                 }
                 break;
